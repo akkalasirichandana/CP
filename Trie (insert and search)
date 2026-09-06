@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+using namespace std;
+struct TrieNode {
+    TrieNode* child[26];
+    bool isEnd;
+    TrieNode() {
+        isEnd = false;
+        for (int i = 0; i < 26; i++) {
+            child[i] = nullptr;
+        }
+    }
+};
+void insert(TrieNode* root, string word) {
+    TrieNode* current = root;
+    for (char c : word) {
+        int index = c - 'a';
+        if (current->child[index] == nullptr) {
+            current->child[index] = new TrieNode();
+        }
+        current = current->child[index];
+    }
+    current->isEnd = true;
+}
+bool search(TrieNode* root, string word) {
+    TrieNode* current = root;
+    for (char c : word) {
+        int index = c - 'a';
+        if (current->child[index] == nullptr) {
+            return false;
+        }
+        current = current->child[index];
+    }
+    return current->isEnd;
+}
+int main() {
+    int N;
+    cin >> N;
+    cin.ignore();
+    string line;
+    getline(cin, line);
+    stringstream ss(line);
+    string word;
+    TrieNode* root = new TrieNode();
+    while (getline(ss, word, ',')) {
+        insert(root, word);
+    }
+    string A;
+    getline(cin, A);
+    if (search(root, A)) {
+        cout << 1;
+    }
+    else {
+        cout << 0;
+    }
+    return 0;
+}
