@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <sstream>
+using namespace std;
+string getAbbreviation(string word) {
+    string abbr;
+    for (char c : word) {
+        if (c >= 'A' && c <= 'Z') {
+            abbr += c;
+        }
+    }
+   return abbr;
+}
+bool matches(string abbr, string pattern) {
+    int j = 0;
+    for (char c : abbr) {
+        if (j < pattern.length() && c == pattern[j]) {
+            j++;
+        }
+    }
+    return j == pattern.length();
+}
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+    string line;
+    getline(cin, line);
+    vector<string> dict;
+    string word;
+    stringstream ss(line);
+    while (getline(ss, word, ',')) {
+        dict.push_back(word);
+    }
+    string pattern;
+    getline(cin, pattern);
+    vector<pair<string, string>> result;
+    for (string word : dict) {
+        string abbr = getAbbreviation(word);
+        if (matches(abbr, pattern)) {
+            result.push_back({abbr, word});
+        }
+    }
+    if (result.empty()) {
+        cout << "No match found";
+        return 0;
+    }
+    sort(result.begin(), result.end());
+    for (auto &p : result) {
+        cout << p.second << endl;
+    }
+    return 0;
+}
