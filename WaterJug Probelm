@@ -1,0 +1,13 @@
+#include <iostream>
+#include <numeric>
+#include <algorithm>
+using namespace std;
+int main() {
+    long long A, B, T;
+    cin >> A >> B >> T;
+    if (T <= max(A, B) && T % gcd(A, B) == 0)
+        cout << "YES";
+    else
+        cout << "NO";
+    return 0;
+}
