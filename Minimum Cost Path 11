@@ -1,0 +1,34 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int main() {
+    int rows,cols;
+    cin>>rows>>cols;
+    vector<vector<int>>a(rows,vector<int>(cols));
+    for(int i=0;i<rows;i++){
+        for(int j=0;j<cols;j++){
+            cin>>a[i][j];
+        }
+    }
+    vector<vector<int>>dp(rows,vector<int>(cols));
+    dp[0][0]=a[0][0];
+    for(int i=0;i<rows;i++){
+        for(int j=0;j<cols;j++){
+            if(i==0&&j==0)
+             continue;
+            int best=1000000000;
+            if(i>0)
+            best=min(best,dp[i-1][j]);
+            if(j>0)
+            best=min(best,dp[i][j-1]);
+            if(i>0&&j>0)
+            best=min(best,dp[i-1][j-1]);
+            dp[i][j]=a[i][j]+best;
+        }
+    }
+    cout<<dp[rows-1][cols-1];
+    return 0;
+}
